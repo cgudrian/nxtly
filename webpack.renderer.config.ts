@@ -2,6 +2,7 @@ import type { Configuration } from 'webpack'
 
 import { rules } from './webpack.rules'
 import { plugins } from './webpack.plugins'
+import * as path from 'path'
 
 rules.push({
     test: /\.css$/,
@@ -16,5 +17,9 @@ export const rendererConfig: Configuration = {
     resolve: {
         extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
     },
-    devtool: "source-map"
+    devtool: "source-map",
+    output: {
+        hotUpdateChunkFilename: 'hot/hot-update.js',
+        hotUpdateMainFilename: 'hot/hot-update.json'
+    }
 }
