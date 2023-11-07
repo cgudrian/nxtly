@@ -2,7 +2,7 @@ import type { Configuration } from 'webpack'
 
 import { rules } from './webpack.rules'
 import { plugins } from './webpack.plugins'
-import * as path from 'path'
+import * as path from 'node:path'
 
 rules.push({
     test: /\.css$/,
@@ -15,7 +15,10 @@ export const rendererConfig: Configuration = {
     },
     plugins,
     resolve: {
-        extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+        extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.svelte'],
+        alias: {
+            svelte: path.resolve('node_modules', 'svelte/src/runtime')
+        },
     },
     devtool: "source-map",
     output: {

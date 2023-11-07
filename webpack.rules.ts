@@ -28,4 +28,15 @@ export const rules: Required<ModuleOptions>['rules'] = [
             },
         },
     },
+    {
+        test: /\.(html|svelte)$/,
+        exclude: /index.html/,
+        use: 'svelte-loader'
+    },
+    {
+        test: /node_modules\/svelte\/.*\.mjs$/,
+        resolve: {
+            fullySpecified: false
+        }
+    }
 ]
