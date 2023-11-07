@@ -4,7 +4,12 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 const exposedApi = {
-    onUSBChanged: (callback: (devices: { [key: number]: string }) => void) => ipcRenderer.on('usb-changed', (_, devices) => callback(devices)),
+    onUSBChanged: (callback: (devices: { [key: number]: string }) => void) => {
+        ipcRenderer.on('usb-changed', (event, devices, foo) => {
+            console.log(event, devices, foo)
+            callback(devices)
+        })
+    },
     onUpdateCounter: (callback: (delta: number) => void) => ipcRenderer.on('update-counter', (_, delta) => callback(delta))
 }
 
