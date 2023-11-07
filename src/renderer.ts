@@ -27,9 +27,16 @@
  */
 
 import './index.css'
+import styles from './app.module.css'
+
+console.log(styles)
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack')
 
 window.api.onUSBChanged((a) => console.log(a))
 
 console.log("OK")
+
+const element = document.getElementById('changeme')
+console.log(element)
+element?.classList.add(styles['display-red'])
