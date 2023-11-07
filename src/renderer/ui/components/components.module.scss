@@ -1,0 +1,11 @@
+.heading {
+  font-family: "Monaco";
+
+  &:hover {
+    font-style: italic;
+  }
+
+  &.huxl {
+    font-weight: bold;
+  }
+}

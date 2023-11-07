@@ -1,0 +1,10 @@
+.display-red {
+  color: red;
+}
+
+.foo {
+  font-size: 4em;
+  .bar {
+    color: blue;
+  } 
+}

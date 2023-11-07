@@ -38,5 +38,13 @@ export const rules: Required<ModuleOptions>['rules'] = [
         resolve: {
             fullySpecified: false
         }
-    }
+    },
+    {
+        test: /\.scss$/,
+        use: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+        ],
+    },
 ]

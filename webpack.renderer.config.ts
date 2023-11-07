@@ -15,7 +15,7 @@ export const rendererConfig: Configuration = {
     },
     plugins,
     resolve: {
-        extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.svelte'],
+        extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.scss', '.svelte'],
         alias: {
             svelte: path.resolve('node_modules', 'svelte/src/runtime')
         },

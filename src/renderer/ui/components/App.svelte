@@ -1,6 +1,9 @@
 <script>
   import Button from "./Button.svelte";
+  import styles from './components.module.scss'
   export let name;
+
+  console.log(styles)
 
   let caption = "Drück mich";
   $: dblCaption = caption + caption;
@@ -11,7 +14,7 @@
 </script>
 
 <main>
-  <h1>Hello {name}</h1>
+  <h1 class="{styles.heading} {styles.huxl}">Hello {name}</h1>
   <Button on:click={machwas}>
     {dblCaption}
   </Button>
