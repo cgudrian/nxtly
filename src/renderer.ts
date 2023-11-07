@@ -28,6 +28,7 @@
 
 import './index.css'
 import styles from './app.module.css'
+import './ui/ui'
 
 console.log(styles)
 

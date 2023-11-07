@@ -10,7 +10,15 @@ const exposedApi = {
             callback(devices)
         })
     },
-    onUpdateCounter: (callback: (delta: number) => void) => ipcRenderer.on('update-counter', (_, delta) => callback(delta))
+
+    onUpdateCounter: (callback: (delta: number) => void) => ipcRenderer.on('update-counter', (_, delta) => callback(delta)),
+
+    compileFile: (source: string): Promise<boolean> => {
+        ipcRenderer.invoke('compile-file', source)
+        return new Promise((resolve) => {
+            ipcRenderer.once('compile-file-success', (_event, success: boolean) => resolve(success))
+        })
+    },
 }
 
 contextBridge.exposeInMainWorld('api', exposedApi)

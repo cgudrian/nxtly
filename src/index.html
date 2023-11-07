@@ -2,11 +2,36 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'" />
     <title>IVU.box.os CVE Database</title>
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src
+        'none'
+      ;
+      script-src
+        'self'
+      ;
+      style-src
+        'self'
+        'unsafe-inline'
+      ;
+      img-src
+        https://blockly-demo.appspot.com
+      ;
+      media-src
+        https://blockly-demo.appspot.com
+      ;
+      connect-src
+        ws://localhost:3000
+      ;
+    ">
   </head>
   <body>
-    <h1 id="changeme">IVU.box.os CVE Database</h1>
-    <p>Welcome to our world.</p>
+    <div class="wrapper">
+      <div class="first">
+        <h1 id="changeme">IVU.box.os CVE Database</h1>
+        <p>Welcome to our world.</p>
+      </div>
+      <div id="blocklyDiv" class="second"></div>
+    </div>
   </body>
 </html>

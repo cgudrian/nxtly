@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent, Menu } from 'electron'
 import { usb } from 'usb'
 import PubSub from 'pubsub-js'
 
@@ -50,10 +50,21 @@ const createWindow = (): void => {
     mainWindow.webContents.openDevTools()
 }
 
+async function compileFile(source: string): boolean {
+    return true
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+    createWindow()
+
+    ipcMain.handle('compile-file', async (event: IpcMainInvokeEvent, source: string) => {
+        const result = await compileFile(source)
+        event.sender.send('compile-file-success', result)
+    })
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -86,6 +97,7 @@ usb.on('attach', (dev) => {
         dev.close()
     })
 })
+
 usb.on('detach', (dev) => {
     delete usbDevices[dev.deviceAddress]
     PubSub.publish('usb-changed-2', usbDevices)
