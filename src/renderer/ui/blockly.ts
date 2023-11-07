@@ -1,6 +1,6 @@
-import * as Blockly from "blockly"
-import { nxcGenerator } from "./generators/nxc"
-import * as nxt from './nxt/nxt'
+import * as Blockly from 'blockly'
+import './blockly/nxt/nxt'
+import { nxcGenerator } from './blockly/generators/nxc'
 
 const TOOLBOX: Blockly.utils.toolbox.ToolboxInfo = {
     kind: 'categoryToolbox',
@@ -58,7 +58,6 @@ const TOOLBOX: Blockly.utils.toolbox.ToolboxInfo = {
 }
 
 const workspace = Blockly.inject("blocklyDiv", { toolbox: TOOLBOX })
-nxt.init(workspace)
 
 const updateCodeEvents = new Set([
     Blockly.Events.BLOCK_CHANGE,
@@ -82,7 +81,7 @@ const compileCode = debounce((code: string) => {
     window.api
         .compileFile(code)
         .then(success => console.log("compilation", success))
-})
+}, 1000)
 
 export function updateCode(event: Blockly.Events.Abstract) {
     if (workspace.isDragging()) return

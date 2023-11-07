@@ -27,4 +27,4 @@
  */
 
 import './index.css'
-import './ui/ui'
+import './renderer/ui'
