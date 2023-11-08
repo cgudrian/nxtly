@@ -5,4 +5,4 @@ import styles from './app.module.scss'
 import './index.css'
 import './renderer/ui'
 
-console.log(styles)
+window.api.onBricksChanged(console.log)

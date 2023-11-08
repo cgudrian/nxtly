@@ -1,4 +1,5 @@
 import * as usb from 'usb';
+import { EventEmitter } from 'node:events';
 
 declare global {
     interface DataView {
@@ -19,9 +20,15 @@ DataView.prototype.getString = function (offset: number, length?: number): strin
     return text;
 };
 
+export type DiscoveredBricks = { [key: string]: string; };
+
 class NXTBrick {
     private _dev: USBDevice;
     private _name?: string;
+
+    public get name(): string | undefined {
+        return this._name;
+    }
 
     constructor(dev: USBDevice) {
         this._dev = dev;
@@ -51,8 +58,8 @@ class NXTBrick {
         for (let i = 0; i < 15; ++i)
             request.push(name.charCodeAt(i) || 0);
         request.push(0);
-        const data = await this.sendRequest(request, 3)
-        console.log(data)
+        const data = await this.sendRequest(request, 3);
+        console.log(data);
     }
 
     async getDeviceName(): Promise<string | undefined> {
@@ -74,16 +81,24 @@ class NXTBrick {
     }
 }
 
+export const discovery = new EventEmitter();
 
 const webusb = new usb.WebUSB(
     { allowAllDevices: true },
 );
 
-const Bricks: { [key: string]: NXTBrick; } = {};
+const bricks: { [key: string]: NXTBrick; } = {};
 
 function isNXTBrick(device: USBDevice): boolean {
     return device.vendorId === 0x0694
         && device.productId === 0x0002;
+}
+
+function bricksChanged() {
+    const data: DiscoveredBricks = {}
+    for (const serial in bricks)
+        data[serial] = bricks[serial].name ?? "<unnamed>"
+    discovery.emit('bricks-changed', data)
 }
 
 async function nxtBrickAttached(device: USBDevice) {
@@ -94,12 +109,15 @@ async function nxtBrickAttached(device: USBDevice) {
 
     const brick = new NXTBrick(device);
     await brick.initialize();
-    Bricks[device.serialNumber] = brick;
+    bricks[device.serialNumber] = brick;
+    bricksChanged();
 }
 
 async function nxtBrickDetached(device: USBDevice) {
-    if (device.serialNumber)
-        delete Bricks[device.serialNumber];
+    if (device.serialNumber) {
+        delete bricks[device.serialNumber];
+        bricksChanged();
+    }
 }
 
 export async function initUsb() {

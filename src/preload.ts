@@ -4,10 +4,9 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 const exposedApi = {
-    onUSBChanged: (callback: (devices: { [key: number]: string; }) => void) => {
-        ipcRenderer.on('usb-changed', (event, devices, foo) => {
-            console.log(event, devices, foo);
-            callback(devices);
+    onBricksChanged: (callback: (devices: { [key: number]: string; }) => void) => {
+        ipcRenderer.on('bricks-changed', (event, bricks) => {
+            callback(bricks);
         });
     },
 
